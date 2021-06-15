@@ -205,21 +205,23 @@ define([
 
         _parseTimeAgo: function(value, data) {
             logger.debug(this.id + "._parseTimeAgo");
+            var roundFx = (this.foundFx === "round") ? Math.round : Math.floor;
             var date = new Date(value),
                 now = new Date(),
                 appendStr = null,
                 diff = Math.abs(now.getTime() - date.getTime()),
-                seconds = Math.floor(diff / 1000),
-                minutes = Math.floor(seconds / 60),
-                hours = Math.floor(minutes / 60),
-                days = Math.floor(hours / 24),
-                weeks = Math.floor(days / 7),
-                months = Math.floor(days / 31),
-                years = Math.floor(months / 12),
+                seconds = roundFx(diff / 1000),
+                minutes = roundFx(seconds / 60),
+                hours = roundFx(minutes / 60),
+                days = roundFx(hours / 24),
+                weeks = roundFx(days / 7),
+                months = roundFx(days / 31),
+                years = roundFx(months / 12),
                 time = null;
 
             if (this.useTranslatableStrings) {
                 time = {
+                    "moment": this.translateStringmoment,
                     "second": this.translateStringsecond,
                     "seconds": this.translateStringseconds,
                     "minute": this.translateStringminute,
@@ -246,10 +248,16 @@ define([
             appendStr = (date > now) ? time.timestampFuture : time.timestampPast;
 
             function createTimeAgoString(nr, unit) {
-                return nr + " " + (nr === 1 ? time[unit] : time[unit + "s"]) + " " + appendStr;
+                if (nr) {
+                    return nr + " " + (nr === 1 ? time[unit] : time[unit + "s"]) + " " + appendStr;
+                } else {
+                    return time[ unit ] + " " + appendStr;
+                }
             }
 
-            if (seconds < 60) {
+            if (this.useTranslatableStrings && this.useMoment && minutes < 2) {
+                return createTimeAgoString(null, "moment");
+            } else if (seconds < 60) {
                 return createTimeAgoString(seconds, "second");
             } else if (minutes < 60) {
                 return createTimeAgoString(minutes, "minute");

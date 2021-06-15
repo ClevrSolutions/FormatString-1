@@ -119,7 +119,36 @@
               <enumerationValue key="nl_nl">nl-nl</enumerationValue>
             </enumerationValues>
         </property>
+        <property key="useMoment" type="boolean" defaultValue="false" required="true">
+            <caption>Use moments translation</caption>
+            <category>Behavior</category>
+            <description>
+                If time difference is less than 2 minutes, use the 'moment' translation.
+                Only applicable if translatable strings are used. 
+            </description>
+        </property>
+        <property key="roundFx" type="enumeration" defaultValue="floor" required="true">
+            <caption>Round function</caption>
+            <category>Behavior</category>
+            <description>
+                Specify which function to use to round a datetime value in case it is displayed relative to the current datetime.
+            </description>
+            <enumerationValues>
+              <enumerationValue key="floor">Floor</enumerationValue>
+              <enumerationValue key="round">Round</enumerationValue>
+            </enumerationValues>
+        </property>
         <!-- CUSTOMIZATION -->
+        <property key="translateStringmoment" type="translatableString">
+            <caption>String value for moment</caption>
+            <category>Customization</category>
+            <description>String value for moment</description>
+            <translations>
+                <translation lang="en_US">moments</translation>
+                <translation lang="en_GB">moments</translation>
+                <translation lang="nl_NL">moments</translation>
+            </translations>
+        </property>
         <property key="translateStringsecond" type="translatableString">
             <caption>String value for second</caption>
             <category>Customization</category>
